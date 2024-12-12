@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎅 Santa's Village</title>
+
+    <!-- Include Lobster font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <!-- Include Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <style>
+        /* General body and font styling */
+        body {
+            font-family: 'Lobster', cursive;
+            background-color: #ADD8E6; /* Light blue background */
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header section with the Back button */
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #D32F2F;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .header:hover {
+            background-color: #9c2424;
+        }
+
+        /* Main content section */
+        .content {
+            margin-top: 100px;
+        }
+
+        /* Heading for the page */
+        .heading {
+            font-size: 4rem;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            color: #FF6347;
+        }
+
+        /* Styling for button container */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        /* Button styles */
+        .button {
+            font-size: 2rem;
+            background-color: #FF6347; /* Tomato red color */
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            text-decoration: none;
+            border-radius: 15px;
+            width: 250px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+
+        .button:hover {
+            transform: translateY(-5px);
+            background-color: #FF4500;
+        }
+
+        .button i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        /* Button description styling */
+        .button-description {
+            font-size: 1.2rem;
+            margin-top: 5px;
+            color: #fff;
+            opacity: 0.9;
+        }
+
+        /* Adding some padding at the top of the page */
+        .background {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 50px 0;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with the Back button -->
+    <a href="index.html" class="header">⬅️ Return to Main Page</a>
+
+    <!-- Main content section -->
+    <div class="content background">
+        <h1 class="heading">🎅 Welcome to Santa's Village 🎄</h1>
+
+        <!-- Buttons for navigation with descriptions -->
+        <div class="button-container">
+            <a href="sleigh.html" class="button">
+                <i class="fas fa-sleigh"></i>🛷 Santa's Sleigh
+                <span class="button-description">Learn how Santa's sleigh works and its magical powers!</span>
+            </a>
+            <a href="route.html" class="button">
+                <i class="fas fa-map"></i>🗺️ Santa's Route
+                <span class="button-description">Discover how Santa plans the perfect route to deliver gifts.</span>
+            </a>
+            <a href="workshop.html" class="button">
+                <i class="fas fa-users"></i>🛠️ Santa's Workshop
+                <span class="button-description">Explore Santa's Workshop and see how the elves create magic!</span>
+            </a>
+            <a href="giftjourney.html" class="button">
+                <i class="fas fa-gift"></i>🎁 The Gift Journey
+                <span class="button-description">Follow the journey of Santa's presents from the North Pole.</span>
+            </a>
+            <a href="chat.html" class="button">
+                <i class="fas fa-gift"></i>💬 Chat with Santa
+                <span class="button-description">Chat with the man in red in his magical, interactive chatroom!</span>
+            </a>
+            <a href="faq.html" class="button">
+                <i class="fas fa-question-circle"></i>❓ FAQ
+                <span class="button-description">Get answers to your most pressing questions about Santa's journey!</span>
+            </a>
+            <a href="familyguide.html" class="button">
+                <i class="fas fa-users"></i>👪 Family Guide
+                <span class="button-description">A guide for families to enjoy the holiday season here!</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

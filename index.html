@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎄 Santa's Journey</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.css"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <style>
+body {
+    font-family: 'Lobster', cursive;
+}
+
+/* Additional styling for other elements (if needed) */
+h1, h2, h3, p {
+    font-family: 'Lobster', cursive; /* Ensure headers and paragraphs also use Lobster */
+}
+#map {
+    width: 100%;              /* Set the width to 80% of its container (you can adjust this percentage) */
+    height: 800px;           /* Set a fixed height (you can adjust the height too) */
+    border-radius: 15px;     /* Apply rounded corners with a radius of 15px (adjust as needed) */
+    overflow: hidden;        /* Ensures no content overflows outside the rounded corners */
+    margin: 20px auto;       /* Center the map horizontally and add some space around it */
+}
+
+        .leaflet-div-icon {
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        .custom-marker {
+            font-size: 32px;
+            text-align: center;
+            color: #28a745; /* Green border */
+            border-radius: 50%;
+            background-color: white; /* White fill */
+            border: 4px solid #28a745; /* Green outline */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cluster-icon {
+            background-color: white;
+            border-radius: 50%;
+            border: 4px solid #28a745;
+            font-size: 16px;
+            color: #28a745;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+/* Countdown container */
+#countdown-container {
+    position: fixed;
+    top: 25px;
+    right: 20px;
+    z-index: 1000; /* Ensure the countdown is on top of other elements */
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px; /* Make the font size smaller */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Countdown text */
+#countdown-timer {
+    font-size: 18px;
+    font-weight: bold;
+    color: #D32F2F; /* Red color for the countdown */
+    margin: 0;
+    text-align: center;
+    padding: 0;
+}
+
+      /* Style the button */
+.village-button {
+    position: absolute;  /* Position it relative to the nearest positioned ancestor (in this case, the body or map) */
+    bottom: 40px;        /* Place it 20px from the bottom */
+    left: 20px;          /* Place it 20px from the left */
+    padding: 12px 24px;  /* Add some padding */
+    background-color: #ff4c4c; /* A nice red background for the button */
+    color: white;        /* Text color white */
+    font-size: 16px;     /* Text size */
+    font-weight: bold;   /* Make text bold */
+    border-radius: 10px; /* Rounded corners */
+    border: none;        /* Remove default border */
+    text-decoration: none; /* Remove default link underline */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
+    z-index: 1000; /* Make sure it's on top of other elements */
+}
+
+/* Hover animation for the button */
+.village-button:hover {
+    background-color: #e12e2e; /* Darker red when hovered */
+    transform: translateY(-3px); /* Slightly lift the button on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
+}
+
+/* Optional: When button is clicked */
+.village-button:active {
+    transform: translateY(1px); /* Button moves down slightly when clicked */
+}
+
+
+
+    </style>
+</head>
+<body>
+
+<div id="countdown-container">
+    <p id="countdown-timer"></p>
+</div>
+
+<a href="village.html" id="villageButton" class="village-button">🎅 Go to Santa's Village</a>
+
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <script>
+
+            // Get the current month (0 = January, 1 = February, ..., 11 = December)
+    var currentMonth = new Date().getMonth();
+
+// If the current month isn't December (i.e., not month 11), redirect to closed.html
+if (currentMonth !== 11) {
+    window.location.href = "closed.html";  // Redirects to the closed page
+}
+window.onload = function() {
+    const villageButton = document.getElementById("villageButton");
+    villageButton.style.position = "absolute"; // Ensure it's positioned absolutely
+    villageButton.style.zIndex = 1000; // Ensure it stays on top of the map
+};
+
+        const map = L.map('map').setView([0, 0], 2);  // Set initial view of the map
+let markersArray = [];  // Store the markers for later updates
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Create a marker cluster group
+        const markers = L.markerClusterGroup({
+            iconCreateFunction: function(cluster) {
+                const markersCount = cluster.getChildCount();
+                const icon = L.divIcon({
+                    className: 'cluster-icon',
+                    html: markersCount,
+                    iconSize: [40, 40],
+                    iconAnchor: [20, 20],
+                });
+                return icon;
+            }
+        });
+
+        // Function to format date and time in the user's local timezone
+        function formatTimeInLocalTimezone(date) {
+            return date.toLocaleString('en-GB', { 
+                weekday: 'short', 
+                day: '2-digit', 
+                month: 'short', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                hour12: true, 
+            });
+        }
+
+        // Function to format time based on the destination's timezone offset
+        function formatTimeInDestinationTimezone(date, timezoneOffset) {
+    // Adjust the time by adding the timezone offset (in seconds)
+    const destinationTime = new Date(date);
+    destinationTime.setSeconds(destinationTime.getSeconds() + timezoneOffset); // Adjust for the destination's timezone
+
+    // Format and return only the time (not the full date)
+    return destinationTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+}
+
+
+
+        // Get the current time in the user's timezone
+        const currentTime = new Date();
+        const currentYear = currentTime.getFullYear();  // Get current year
+
+        // Set Santa's departure time (December 24, 2024, 10:00 AM UK time)
+        const santaDepartureTime = new Date('2024-12-24T10:00:00Z');
+
+        // Function to check if the current time is before Santa's departure
+        function isBeforeDeparture() {
+            return currentTime < santaDepartureTime;
+        }
+
+        // Fetch Santa's destinations
+        fetch('https://firebasestorage.googleapis.com/v0/b/santa-tracker-firebase.appspot.com/o/route%2Fsanta_en.json?alt=media&2024b')
+            .then(response => response.json())
+            .then(data => {
+                let destinations = data.destinations;
+                const routeCoordinates = []; // Array to store the coordinates for the polyline
+
+                // Sort destinations by arrival date (ascending order)
+                destinations.sort((a, b) => new Date(a.arrival) - new Date(b.arrival));
+
+destinations.forEach((destination, index) => {
+    // Skip the "landing" Santa's Village
+    if (destination.id === 'landing') {
+        return;
+    }
+
+    // Adjust the year for arrival and departure dates to the current year
+    const adjustedArrival = new Date(destination.arrival);
+    adjustedArrival.setFullYear(currentYear);
+
+    const adjustedDeparture = new Date(destination.departure);
+    adjustedDeparture.setFullYear(currentYear);
+    const timezoneOffset = destination.details.timezone || 0;  // This grabs the timezone offset in seconds
+
+ // Format arrival and departure times
+const formattedArrivalLocal = formatTimeInLocalTimezone(adjustedArrival);  // For the user's local time
+const formattedDepartureLocal = formatTimeInLocalTimezone(adjustedDeparture);  // For the user's local time
+
+// Format destination local times (just the time)
+const formattedArrivalDestination = formatTimeInDestinationTimezone(adjustedArrival, destination.details.timezone);  // For destination's local time
+const formattedDepartureDestination = formatTimeInDestinationTimezone(adjustedDeparture, destination.details.timezone);  // For destination's local time
+
+    const city = destination.city;
+    const region = destination.region;
+    const lat = destination.location.lat;
+    const lng = destination.location.lng;
+    const presentsDelivered = destination.presentsDelivered;
+    const lastPresentsDelivered = index > 0 ? destinations[index - 1].presentsDelivered : 0;
+    const presentsAtLocation = presentsDelivered - lastPresentsDelivered;
+
+    let emoji = '🎁';  // Set to 🎁
+    let statusText = '';
+    let photoURL = destination.details.photos[0]?.url || '';  // If photo exists, show it
+
+    // Tooltip content
+    const tooltipContent = `📍 ${city}, ${region}`;
+
+function updateMarkers() {
+    const now = new Date();
+    
+    markersArray.forEach(item => {
+        const { marker, destination } = item;
+
+        let emoji = item.emoji;
+        let statusText = item.statusText;
+
+        // Update the marker's emoji and status
+        marker.setIcon(L.divIcon({
+            className: 'custom-marker',
+            html: emoji,  // Update emoji
+            iconSize: [50, 50],
+            iconAnchor: [25, 25],
+        }));
+
+    });
+}
+
+
+    const marker = L.marker([lat, lng], {
+        icon: L.divIcon({
+            className: 'custom-marker',
+            html: emoji,
+            iconSize: [50, 50],
+            iconAnchor: [25, 25],
+        })
+    }).addTo(markers); // Add marker to the cluster group
+
+
+
+    // Bind the tooltip to the marker
+    marker.bindTooltip(tooltipContent, {
+        permanent: false,  // Tooltip will show on hover, not permanently
+        direction: 'top',  // Tooltip will be displayed above the marker
+        offset: [0, -20]   // Adjust the position of the tooltip
+    });
+
+    // Add the coordinates to the route array
+    routeCoordinates.push([lat, lng]);
+
+    // Create the formatted dates
+    const formattedArrival = `${adjustedArrival.getUTCDate()} ${adjustedArrival.toLocaleString('en', { month: 'short' })} ${adjustedArrival.getUTCHours().toString().padStart(2, '0')}:${adjustedArrival.getUTCMinutes().toString().padStart(2, '0')}`;
+    const formattedDeparture = `${adjustedDeparture.getUTCDate()} ${adjustedDeparture.toLocaleString('en', { month: 'short' })} ${adjustedDeparture.getUTCHours().toString().padStart(2, '0')}:${adjustedDeparture.getUTCMinutes().toString().padStart(2, '0')}`;
+
+    // Custom hardcoded times for Santa's Village (takeoff)
+    if (destination.id === 'takeoff') {
+        const hardcodedArrival = new Date('2024-12-25T11:00:00Z');
+        const hardcodedDeparture = new Date('2024-12-24T10:00:00Z');
+        marker.bindPopup(`
+            <div>
+                <img src="${photoURL}" alt="${city}" style="width:100%; border-radius: 10px;">
+                <h2>📍 Santa's Village, North Pole</h3>
+                <p><strong>ℹ️ Overview:</strong> Santa's Village is where all the magic happens! It's a cozy little town full of Christmas spirit, snow, and of course, Santa's hardworking elves. 🎅🎄</p>
+                <p>🎁 Santa delivers <strong>0</strong> presents here</p>
+                <p><strong>🛬 Arrival:</strong> ${formatTimeInLocalTimezone(hardcodedArrival)}</p>
+                <p><strong>🛫 Departure:</strong> ${formatTimeInLocalTimezone(hardcodedDeparture)}</p>
+            </div>
+        `);
+    } else {
+        // Fetch Wikipedia summary for the city
+        fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${city.replace(' ', '_')}`)
+            .then(wikiResponse => wikiResponse.json())
+            .then(wikiData => {
+                const summary = wikiData.extract;
+        const cityUrl = `https://en.wikipedia.org/wiki/${city.replace(' ', '_')}`;
+                marker.bindPopup(`
+                    <div>
+                        <img src="${photoURL}" alt="${city}" style="width:100%; border-radius: 10px;">
+                        <h2>📍 ${city}, ${region}</h3>
+                        <p><strong>ℹ️ Overview:</strong> ${summary}</p>
+                <p><strong>🏙️ <a href="${cityUrl}" target="_blank">Learn more on Wikipedia</a></strong></p>
+                        <p>🎁 Santa delivers <strong>${presentsAtLocation.toLocaleString()}</strong> presents here</p>
+        <p><strong>🛬 Arrival:</strong> ${formattedArrivalLocal} (<span style="font-weight: normal;">${formattedArrivalDestination} in ${city}</span>)</p>
+        <p><strong>🛫 Departure:</strong> ${formattedDepartureLocal} (<span style="font-weight: normal;">${formattedDepartureDestination} in ${city}</span>)</p>
+                    </div>
+                `);
+            });
+    }
+});
+
+
+                // Add the polyline showing the route
+                if (routeCoordinates.length > 1) {
+                    const routeLine = L.polyline(routeCoordinates, {
+                        color: '#D32F2F',
+                        weight: 3,
+                        opacity: 0.7,
+                    }).addTo(map); // Add polyline to the map
+                }
+
+                // Add all markers to the map
+                map.addLayer(markers);
+
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+// Countdown Timer Script
+const countdownContainer = document.createElement('div');
+countdownContainer.id = 'countdown-container'; // Ensure this matches your style
+const countdownTimer = document.createElement('p');
+countdownTimer.id = 'countdown-timer'; // Ensure this matches your style
+countdownContainer.appendChild(countdownTimer);
+document.body.appendChild(countdownContainer);
+
+
+// Function to update the countdown
+function updateCountdown() {
+    const now = new Date();
+    const timeRemaining = santaDepartureTime - now;
+
+    if (timeRemaining <= 0) {
+        countdownContainer.style.display = 'none'; // Hide if past departure time
+        return;
+    } else {
+        countdownContainer.style.display = 'block'; // Show if time remaining
+    }
+
+    let days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+    // Format the countdown based on the time remaining
+    let countdownText = '';
+
+    if (days > 0) {
+        countdownText = `${days}d ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+    } else if (hours > 0) {
+        countdownText = `${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+    } else if (minutes > 0) {
+        countdownText = `${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}`;
+    } else {
+        countdownText = `${seconds.toString().padStart(2, '0')}s`;
+    }
+
+    countdownTimer.textContent = `🕙 ${countdownText} until Santa departs`;
+}
+
+// Update the countdown every 500ms
+setInterval(updateCountdown, 500);
+setInterval(updateMarkers, 500);
+
+    </script>
+</body>
+</html>
