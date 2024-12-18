@@ -3,111 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔒 Santa's Journey - Closed</title>
+    <title>🔒 Santa's Journey - Closed for the Season</title>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Lobster', cursive;
-            background-color: #f0f8ff;
+            background-color: #f1f8f2;
             color: #333;
             text-align: center;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
         }
 
-        h1, h2, h3, p {
-            font-family: 'Lobster', cursive;
-        }
-
-        .title-container {
+        h1 {
+            font-size: 3rem;
+            color: #d32f2f;
             margin-top: 50px;
         }
 
-        .title-container h1 {
-            font-size: 60px;
-            color: #ff6347;
+        .container {
+            margin: 50px;
         }
 
-        .title-container p {
-            font-size: 24px;
+        .locked-icon {
+            font-size: 6rem;
+            color: #e53935;
+            margin: 20px 0;
+        }
+
+        .message {
+            font-size: 1.5rem;
+            margin-top: 20px;
             color: #333;
+            line-height: 1.5;
         }
 
-        .new-additions h2 {
-            font-size: 40px;
-            color: #ff6347;
-            margin-top: 40px;
-        }
-
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            margin-top: 40px;
+            gap: 30px;
+            margin-top: 50px;
         }
 
         .card {
-            background-color: #fff;
-            border: 2px solid #ff6347;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #f1f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            width: 280px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            transition: all 0.3s ease;
+            transition: transform 0.2s;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
         }
 
         .card h3 {
-            color: #ff6347;
-            font-size: 28px;
-            margin-bottom: 15px;
+            font-size: 1.7rem;
+            color: #d32f2f;
+            margin-bottom: 10px;
         }
 
         .card p {
+            font-size: 1.1rem;
             color: #333;
-            font-size: 20px;
-            line-height: 1.6;
+            line-height: 1.4;
         }
 
-        .emoji {
-            font-size: 100px;
-            color: #ff6347;
+        .card i {
+            font-size: 3.5rem;
+            color: #d32f2f;
         }
 
+        .footer {
+            margin-top: 50px;
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            color: #e53935;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+    <h1>🎅 Santa's Journey is currently closed 🎅</h1>
 
-    <div class="title-container">
-        <span class="emoji">🔒</span>
-        <h1>Santa's Journey is closed</h1>
-        <p>Hey there! Santa's Journey is taking a break for now, but don't worry—we'll be back on December 1st with a whole month of Christmas fun! 🎄✨</p>
-        <p>Until then, enjoy the holiday season, and get ready for all the magic coming in December!</p>
-    </div>
+    <div class="container">
+        <div class="locked-icon">🔒</div>
+        <div class="message">
+            Thank you so much for being part of our festive journey in 2024! 🎉 We had an amazing time together, and now we're already counting down the days until December 2025! This year was unforgettable, and we can’t wait to bring you even more Christmas magic. 🌟
+            <br><br>
+            Our website is taking a break, but don’t worry! We’ll be back with loads of new surprises, activities, and features that will make your December even more special. 🎄 Until then, stay tuned and get ready to dive back into the holiday spirit once December rolls around. 🎁
+            <br><br>
+            We’re busy behind the scenes improving the site and preparing for our second year of operation. When we return in December 2025, expect a fresh and exciting experience that’ll fill your heart with joy! 💖
+            <br><br>
+            Until then, see you in December! And hey, you might see some year-round projects we’re working on—stay tuned for even more fun, all year long! 👀
+        </div>
 
-    <div class="new-additions">
-        <h2>What's coming this year?</h2>
-        <p>We'll be working on some amazing surprises that’ll make your holiday season even more magical. Check out what we're planning to add in December:</p>
-        
-        <div class="card-container">
+    <h1>🆕 Plans for new things this year 🆕</h1>
+
+        <div class="cards">
             <div class="card">
-                <h3>📆 Advent calendar fun!</h3>
-                <p>Starting December 1st, every day will bring a new surprise with our Advent Calendar! 🎁 From fun activities to special holiday messages, you'll get a little Christmas magic every day leading up to the big day! 🎄🎅</p>
+                <h3>📆 Advent Calendar</h3>
+                <p>Get ready for a magical Christmas countdown! From December 1st to December 24th, unlock a brand new activity every day! From fun games to heartwarming surprises, it’ll be a daily treat. 🎄</p>
             </div>
+
             <div class="card">
-                <h3>🎅 Track Santa's live journey!</h3>
-                <p>Get ready to follow Santa in real-time on Christmas Eve! 🚀 See where he is as he zooms around the world delivering presents, and track his every move! 🎁🌍 It’s going to be epic!</p>
+                <h3>🎅 Santa’s Journey Tracker</h3>
+                <p>For the first time ever, track Santa’s magical journey on Christmas Eve! 🌍 See exactly where Santa is and how many presents he's delivered! You’ll feel like you’re right there with him! 🎅✨</p>
             </div>
+
             <div class="card">
-                <h3>👀 More surprises on the way!</h3>
-                <p>We've got even more festive surprises planned for 2025 that we can't wait to share. 🎉 From new activities to even more magical features, your holiday season is going to be filled with joy! 🎄💫</p>
+                <h3>🎨 UI Changes</h3>
+                <p>We’re giving the website a festive makeover! Expect a fresh and exciting new design, making it easier than ever to find your way through Santa’s Journey and enjoy the Christmas cheer. ❄️</p>
+            </div>
+
+            <div class="card">
+                <h3>👀 And more!</h3>
+                <p>We have plenty more surprises in store for you in 2025! Stay tuned for other exciting features, festive activities, and who knows what else... 🎉✨</p>
             </div>
         </div>
-    </div>
 
+        <div class="footer">
+            <p>We’re already brainstorming new projects for year-round fun! So keep an eye on this space for future updates. 🎉 In the meantime, don’t forget to dream of reindeer and snowflakes! ❄️ We can’t wait to welcome you back with open arms when December arrives!</p>
+        </div>
+    </div>
 </body>
 </html>
