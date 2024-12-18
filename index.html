@@ -239,6 +239,8 @@ const formattedDepartureDestination = formatTimeInDestinationTimezone(adjustedDe
     const presentsDelivered = destination.presentsDelivered;
     const lastPresentsDelivered = index > 0 ? destinations[index - 1].presentsDelivered : 0;
     const presentsAtLocation = presentsDelivered - lastPresentsDelivered;
+    const presentsAtLocationMultiplied = presentsAtLocation * 1.75;
+    const presentsAtLocationRounded = Math.round(presentsAtLocationMultiplied);
 
     let emoji = '🎁';  // Set to 🎁
     let statusText = '';
@@ -320,7 +322,7 @@ function updateMarkers() {
                         <h2>📍 ${city}, ${region}</h3>
                         <p><strong>ℹ️ Overview:</strong> ${summary}</p>
                 <p><strong>🏙️ <a href="${cityUrl}" target="_blank">Learn more on Wikipedia</a></strong></p>
-                        <p>🎁 Santa delivers <strong>${presentsAtLocation.toLocaleString()}</strong> presents here</p>
+                        <p>🎁 Santa delivers <strong>${presentsAtLocationRounded.toLocaleString()}</strong> presents here</p>
         <p><strong>🛬 Arrival:</strong> ${formattedArrivalLocal} (<span style="font-weight: normal;">${formattedArrivalDestination} in ${city}</span>)</p>
         <p><strong>🛫 Departure:</strong> ${formattedDepartureLocal} (<span style="font-weight: normal;">${formattedDepartureDestination} in ${city}</span>)</p>
                     </div>
