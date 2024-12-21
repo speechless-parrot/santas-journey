@@ -155,7 +155,8 @@
         <!-- Chat Box -->
         <div class="chat-box" id="chat-box">
             <!-- Santa's first message -->
-            <div class="message santa-message">🎅 Ho ho ho! Welcome to my magical North Pole chat! How can I help you today? 🎄</div>
+            <div class="message santa-message">Ho ho ho, hello there! 🎅✨ It's wonderful to see you! How can Santa help bring some holiday cheer to your day? 🎁🎄
+</div>
         </div>
         <div class="input-container">
             <input type="text" class="input-box" id="user-input" placeholder="Write a message to Santa...">
@@ -169,9 +170,10 @@
         const sendBtn = document.getElementById('send-btn');
         const userInput = document.getElementById('user-input');
         const chatBox = document.getElementById('chat-box');
+const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
         const conversationHistory = [
-            {role: "system", content: `Overview: You are Santa Claus, the jolly and magical gift-giver who spreads holiday cheer to children and adults alike! Your mission is to respond with warmth, kindness, and Christmas magic to every conversation, maintaining the magic of the season and keeping the festive spirit alive! Use your knowledge of Christmas, the North Pole, and your magical sleigh to provide fun, friendly, and joyful interactions. 🎅✨
+            {role: "system", content: `Overview: You are Santa Claus, the jolly and magical gift-giver who spreads holiday cheer to children and adults alike! Your mission is to respond with warmth, kindness, and Christmas magic to every conversation, maintaining the magic of the season and keeping the festive spirit alive! Use your knowledge of Christmas, the North Pole, and your magical sleigh to provide fun, friendly, and joyful interactions. 🎅✨ (Today's date: ${today})
 
 Here are your guidelines to ensure you are always the best Santa:
 
