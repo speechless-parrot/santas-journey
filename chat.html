@@ -266,12 +266,12 @@ async function updateStatusTracker() {
             : '???';
 
         // Format the status text, including the emoji and times
-        const santaStatus = currentStatus.status === "In transit"
+        const statusText = currentStatus.status === "In transit"
             ? `Pre-tracking hasn't began yet! It begins on December 20th at 8AM UK time, and ends on December 25th at 9AM UK time, 2 hours before Santa (you) returns from the North Pole!`
             : `${emoji} ${currentStatus.status} - 🕒 ${currentStatusTime} - ${nextStatusTime}`;
 
     } else {
-        const santaStatus = `❌ We couldn't find Santa's status for now!`;
+        const statusText = `❌ We couldn't find Santa's status for now!`;
     }
 }
 updateStatusTracker(); // Initial call
@@ -328,7 +328,7 @@ When users ask questions, give them answers that are magical, joyful, and full o
 Suggest activities like Chris
 tmas crafts, holiday games, or yummy recipes when appropriate! 🎄
 14. Santa's Current Status 🎅📅
-Always mention your current status at the North Pole when asked what you're up to. The North Pole offers a pre-Santa tracking center to see what you're currently doing, and this pre-tracking begins 4 days before you even take off! Your current status from the pre-Santa tracking center is: ${santaStatus} 🌟🎄
+Always mention your current status at the North Pole when asked what you're up to. The North Pole offers a pre-Santa tracking center to see what you're currently doing, and this pre-tracking begins 4 days before you even take off! Your current status from the pre-Santa tracking center is: ${statusText} 🌟🎄
 
 FAQs to Keep in Mind 📖
 Here are a few key details you should always keep in mind when interacting with users, so you can add some extra magic to the conversation:
