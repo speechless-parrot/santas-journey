@@ -166,6 +166,115 @@
 
     <script>
 
+// Santa Status Tracker Script
+async function fetchSantaStatus() {
+    try {
+        const response = await fetch('https://api.npoint.io/3a26bd85f69b5414aecd');
+        const statuses = await response.json();
+
+        // Shift each status timestamp by -1 hour (subtract 1 hour in milliseconds)
+        statuses.forEach(status => {
+            status.timestamp -= 3600000; // Subtract 1 hour (3,600,000 ms)
+        });
+
+        return statuses.sort((a, b) => b.timestamp - a.timestamp); // Sort in reverse order by timestamp
+    } catch (error) {
+        console.error('Error fetching Santa status:', error);
+        return [];
+    }
+}
+
+// Map statuses to emojis
+const statusEmojiMap = {
+    "Offline": "❌",
+    "Santa Claus is checking the toys": "🧸",
+    "Is checking the list of children": "📜",
+    "Is sleeping": "😴",
+    "Santa Claus is preparing the gifts": "🎁",
+    "Is updating the children's registry": "🖋️",
+    "Santa Claus is inspecting the sleigh": "🛷",
+    "Is organizing the reindeer": "🦌",
+    "Santa Claus is finalizing the preparations": "✅",
+    "Is verifying the delivery routes": "🗺️",
+    "Santa wakes up and stretches, preparing for the day.": "🌅",
+    "Santa enjoys a cup of hot chocolate by the fireplace.": "☕",
+    "Santa checks his naughty and nice list one last time.": "📜",
+    "Santa reviews the flight plan with the elves in mission control.": "🛫🧝",
+    "Santa supervises the final touches on the packages in the workshop.": "🔧🎁",
+    "Santa inspects the reindeer and ensures they are well-fed.": "🦌🥕",
+    "Santa visits the reindeer stables, offering them a carrot.": "🥕",
+    "Santa checks the weather reports for all regions.": "☁🌨️",
+    "Santa has a quick meeting with Mrs. Claus about safety protocols.": "🛡️",
+    "Santa conducts a practice sleigh run around the North Pole.": "🛷",
+    "Santa stops by the loading area to check on the sleigh's load.": "📦",
+    "Santa gives final words of encouragement to each of the reindeer.": "🦌",
+    "Santa meets with the head elf to review the delivery schedule.": "🧝",
+    "Santa polishes his sleigh for good luck and smooth travel.": "✨",
+    "Santa takes a brief rest to ensure he is well-rested for the journey.": "🛌",
+    "Santa enjoys a festive meal with the elves and Mrs. Claus.": "🍴",
+    "Santa reads letters from children for inspiration before the journey.": "💌",
+    "Santa sets his suit and boots in order for optimal comfort.": "👔",
+    "Santa performs a quick check on the magical lock of his gift bag.": "🔒",
+    "Santa reviews delivery strategies for challenging locations.": "🎁",
+    "Santa oversees reindeer harness adjustments for safety.": "🦌",
+    "Santa listens to Christmas carols to get in the holiday spirit.": "🎵",
+    "Santa plans possible alternate routes for any weather issues.": "🗺️",
+    "Santa checks the sleigh's GPS for functionality.": "🧭",
+    "Santa and the elves perform a final safety check on the sleigh.": "🛡️",
+    "Santa triple-checks the list to ensure no child is missed.": "✅✅✅",
+    "Santa inspects the magic dust bags for the reindeer's power boost.": "✨🦌",
+    "Santa meets with the elf communication team for status updates.": "📡🧝",
+    "Santa receives a brief update on global air traffic to avoid delays.": "🌍🛫",
+    "Santa tests his magic watch for time dilation during deliveries.": "⌚✨",
+    "Santa practices a few 'Ho Ho Ho!' greetings for warmth and joy.": "🎅",
+    "Santa reads Mrs. Claus's letter of encouragement.": "📜❤️",
+    "Santa positions the sleigh in the launch area.": "🛷",
+    "Santa finally boards his sleigh, ready to embark on the journey.": "🛷",
+    "In transit": "✈️🎁"
+};
+
+// Function to update the status tracker
+async function updateStatusTracker() {
+    const statuses = await fetchSantaStatus();
+    const now = Date.now();
+
+    let currentStatus = null;
+    let nextStatus = null;
+
+    // Find the current status based on the current time
+    for (let i = 0; i < statuses.length; i++) {
+        if (now >= statuses[i].timestamp) {
+            currentStatus = statuses[i];
+            nextStatus = statuses[i - 1] || null; // Get the next status if it exists
+            break;
+        }
+    }
+
+    if (currentStatus) {
+        const emoji = statusEmojiMap[currentStatus.status] || "✨"; // Get emoji for the status
+        const currentStatusTime = new Date(currentStatus.timestamp).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+        const nextStatusTime = nextStatus
+            ? new Date(nextStatus.timestamp).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+              })
+            : '???';
+
+        // Format the status text, including the emoji and times
+        const statusText = currentStatus.status === "In transit"
+            ? `Pre-tracking hasn't began yet! It begins on December 20th at 8AM UK time, and ends on December 25th at 9AM UK time, 2 hours before Santa (you) returns from the North Pole!`
+            : `${emoji} ${currentStatus.status} - 🕒 ${currentStatusTime} - ${nextStatusTime}`;
+
+    } else {
+        const statusText = `❌ We couldn't find Santa's status for now!`;
+    }
+}
+updateStatusTracker(); // Initial call
 
         const sendBtn = document.getElementById('send-btn');
         const userInput = document.getElementById('user-input');
@@ -216,7 +325,10 @@ Respond in the same language as the user and keep your messages brief (2–3 sen
 Always speak in a festive, joyful tone! Make every interaction feel like a conversation with the real Santa! 🎁🎄
 13. Fun & Engagement 🎉
 When users ask questions, give them answers that are magical, joyful, and full of fun facts! Share stories about the North Pole, the elves, and Santa's sleigh 🛷 and reindeer 🦌. Keep the excitement and joy of the holiday season alive! 🎅
-Suggest activities like Christmas crafts, holiday games, or yummy recipes when appropriate! 🎄
+Suggest activities like Chris
+tmas crafts, holiday games, or yummy recipes when appropriate! 🎄
+14. Santa's Current Status 🎅📅
+Always mention your current status at the North Pole when asked what you're up to. The North Pole offers a pre-Santa tracking center to see what you're currently doing, and this pre-tracking begins 4 days before you even take off! Your current status from the pre-Santa tracking center is: ${statusText} 🌟🎄
 
 FAQs to Keep in Mind 📖
 Here are a few key details you should always keep in mind when interacting with users, so you can add some extra magic to the conversation:
