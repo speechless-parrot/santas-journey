@@ -301,15 +301,18 @@ How does Santa deliver gifts in places without chimneys? 🔑
             }
         }
 
-        // Function to add messages to chat box
-        function addMessage(message, isSanta) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.classList.add(isSanta ? 'santa-message' : 'user-message');
-            messageElement.textContent = message;
-            chatBox.appendChild(messageElement);
-            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
-        }
+    // Function to add messages to chat box
+    function addMessage(message, isSanta) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.classList.add(isSanta ? 'santa-message' : 'user-message');
+
+        // Parse the message as Markdown and set it as innerHTML
+        messageElement.innerHTML = marked.parse(message);
+
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+    }
 
         // Function to send user message and get Santa's response
         async function sendMessage() {
@@ -346,6 +349,6 @@ How does Santa deliver gifts in places without chimneys? 🔑
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </body>
 </html>
