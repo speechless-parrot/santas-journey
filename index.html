@@ -199,13 +199,6 @@ h1, h2, h3, p {
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
     <script>
 
-            // Get the current month (0 = January, 1 = February, ..., 11 = December)
-    var currentMonth = new Date().getMonth();
-
-// If the current month isn't December (i.e., not month 11), redirect to closed.html
-if (currentMonth !== 11) {
-    window.location.href = "closed.html";  // Redirects to the closed page
-}
 window.onload = function() {
     const villageButton = document.getElementById("villageButton");
     villageButton.style.position = "absolute"; // Ensure it's positioned absolutely
